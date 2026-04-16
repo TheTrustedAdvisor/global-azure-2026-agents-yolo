@@ -1,6 +1,29 @@
 team 3:
-  fabric-documenter: Nutze OMG's document-specialist Agent. Enumeriere via 'az rest --method get --url "https://api.fabric.microsoft.com/v1/workspaces" --resource "https://api.fabric.microsoft.com"' alle Fabric-Workspaces. Filtere auf Praefix 'mf-'. Fuer jeden Kandidaten zaehle die Items via '/workspaces/{id}/items'. Waehle den Workspace mit der HOECHSTEN Item-Zahl (nicht den ersten, leere Workspaces sind nutzlos fuer die Doku). Erstelle eine vollstaendige Dokumentation: Struktur, Items (Typ, Name, Owner), Purpose, architektonische Observations, Empfehlungen. Output nach docs/fabric-workspace-doc.md als sauberes Markdown: Heading-Hierarchie, Standard-Tabellen, Bullet-Points. KEIN ASCII-Art, KEINE Box-Drawing-Zeichen, KEINE Trennlinien aus Unicode-Zeichen — nur reines Markdown das glow schoen rendert.
+  fabric-documenter: Nutze OMG's document-specialist Agent. Enumeriere via 'az rest --method get --url "https://api.fabric.microsoft.com/v1/workspaces" --resource "https://api.fabric.microsoft.com"' alle Fabric-Workspaces. Filtere auf Praefix 'mf-'. Zaehle fuer jeden Kandidaten die Items via '/workspaces/{id}/items'. STRIKT: Waehle den Workspace mit den meisten Items (> 0). Falls ausnahmslos alle 'mf-*' Workspaces leer sind, kennzeichne dies im Report-Header explizit als "Alle mf-* Workspaces leer — Dokumentation des gewaehlten Referenz-Workspace".
 
-  m365-security-reviewer: Nutze OMG's security-reviewer Agent. Fuehre ein Security-Review meines M365-Profils via Graph API durch. Calls: 'az rest --url https://graph.microsoft.com/v1.0/me', '.../me/authentication/methods', '.../me/appRoleAssignments'. Bewerte: MFA-Status, Authentication-Methods-Vielfalt, zugewiesene Rollen, Privileged Access, mittelbare Risiken. Priorisierte Findings und konkrete Empfehlungen. Output nach docs/m365-security-review.md als sauberes Markdown: Heading-Hierarchie, Standard-Tabellen fuer Findings mit Severity-Spalten, Bullet-Points. KEIN ASCII-Art, KEINE Box-Drawing-Zeichen.
+Erstelle eine FAKTENBASIERTE Dokumentation: Metadaten (Name, ID, Capacity-ID + Region, OneLake-Endpoints), Items-Liste (Typ, Name, Owner, Erstellungsdatum falls API liefert), architektonische Observations basierend AUSSCHLIESSLICH auf tatsaechlich sichtbaren Items und Properties, und Empfehlungen die aus den Daten ableitbar sind.
 
-  azure-architect-critic: Nutze OMG's architect Agent. Liste Azure Resource Groups via 'az group list' und waehle die erste mit Praefix 'rg-' die mindestens eine Ressource enthaelt (leere RGs ueberspringen). Hole Details zu allen Ressourcen via 'az resource list --resource-group {name}'. Kritisiere die Architektur: Ressourcen-Komposition, Naming-Conventions, Tagging-Strategie, Region-Wahl, Kosten-Bewusstsein, Security-Posture, Missing Best Practices. Output nach docs/azure-rg-architecture-review.md als sauberes Markdown mit Findings-Tabelle (Severity | Finding | Empfehlung), Severity-Level pro Finding (Critical/High/Medium/Low). KEIN ASCII-Art, KEINE Box-Drawing-Zeichen.
+VERBOTEN:
+- Purpose-Spekulationen ohne Item-Evidenz (kein "vermutlich fuer...", kein "wahrscheinlicher Zweck...", kein "koennte gedacht sein fuer...")
+- Naming-Convention-Kritik basierend auf nur EINEM Workspace (nur wenn mehrere mf-* Workspaces inspiziert wurden)
+- ASCII-Art, Box-Drawing-Zeichen (╭ ╮ ╯ ╰ ┌ ┐ └ ┘ │ ─ ├ ┤ ┴ ┬ ┼ ═ ║), "Target Architecture"-Diagramme aus Unicode
+- Emoji-Dekoration zur Strukturierung (Emojis nur fuer Severity-Level OK)
+
+Verwende: Heading-Hierarchie (# ## ###), Standard-Markdown-Tabellen (| col | col |), Bullet-Points, Code-Blocks fuer API-Calls. Datum: nutze heute (2026-04-17). Output: docs/fabric-workspace-doc.md.
+
+  m365-security-reviewer: Nutze OMG's security-reviewer Agent. Fuehre ein umfassendes Security-Review meines M365-Profils via Graph API durch. Calls: 'az rest --url https://graph.microsoft.com/v1.0/me', '.../me/authentication/methods', '.../me/appRoleAssignments', '.../me/oauth2PermissionGrants' (falls erlaubt), '.../me/memberOf'. Bewerte: MFA-Status, Authentication-Methods-Vielfalt, zugewiesene Rollen (insbesondere privileged roles wie Global Admin), OAuth2-Consent-Grants (tenant-wide und high-risk scopes), Legacy-Protokollzugriff (IMAP/EAS/POP), Refresh-Token-Persistenz (offline_access), orphaned Apps (Apps die seit Jahren nicht aktualisiert wurden), Gruppenmitgliedschaften.
+
+Struktur: Executive Summary mit Severity-Count-Tabelle, Findings nach Severity gruppiert (CRITICAL / HIGH / MEDIUM / LOW), pro Finding: Titel + Severity + Befund + Risiko + Empfehlung mit konkreten Commands, Security-Checklist, priorisierter Aktionsplan mit Zeitrahmen. Ein Beispiel wie die Reports aussehen sollten: https://raw.githubusercontent.com/TheTrustedAdvisor/engagement-hub/master/ — die bestehenden gut strukturierten Security-Reviews als Referenz.
+
+VERBOTEN: ASCII-Art, Box-Drawing-Zeichen (╭ ╮ ╯ ╰ ┌ ┐ └ ┘ │ ─ ├ ┤ ┴ ┬ ┼ ═ ║). Datum: nutze heute (2026-04-17). Output: docs/m365-security-review.md.
+
+  azure-architect-critic: Nutze OMG's architect Agent. Liste Azure Resource Groups via 'az group list'. Waehle die erste mit Praefix 'rg-' die MINDESTENS EINE Ressource enthaelt (leere RGs ueberspringen). Hole Details via 'az resource list --resource-group {name}' und vertiefte Ressourcen-Config via 'az resource show' pro Ressource. Kritisiere die Architektur entlang SECHS Dimensionen: Security, Resilienz, Governance, Observability, Kosten, Operational Excellence.
+
+Struktur: RG-Uebersicht mit Config-Tabellen pro Ressource, Findings-Tabelle (# | Severity | Kategorie | Finding | Begruendung | Empfehlung) mit Severity-Level (Critical/High/Medium/Low), Severity-Zusammenfassung, Positiv-Befunde (was gut gemacht wurde), Architektonisches Gesamturteil mit Score pro Dimension (1-10), empfohlene Sofort-Massnahmen (Top 3), Referenz-Links zu Azure Docs.
+
+VERBOTEN:
+- ASCII-Art jeder Art (╭ ╮ ╯ ╰ ┌ ┐ └ ┘ │ ─ ├ ┤ ┴ ┬ ┼ ═ ║)
+- "Target Architecture"-Diagramme aus Unicode oder ASCII — falls Ziel-Architektur gezeigt wird: Bullet-Liste oder Standard-Markdown-Tabelle
+- Emoji-Dekoration zur Strukturierung (Emojis nur fuer Severity-Level OK)
+
+Datum: nutze heute (2026-04-17). Output: docs/azure-rg-architecture-review.md.
