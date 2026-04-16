@@ -157,6 +157,20 @@ function Check-Azure {
     }
 }
 
+# ─── glow (Markdown-Viewer fuer Akt 5) ─────────────────────────────────────
+function Check-Glow {
+    Step 'glow (Markdown-Viewer fuer Akt 5)'
+    if (Has-Command glow) {
+        $version = (glow --version 2>$null | Select-Object -First 1)
+        Ok $version
+    } else {
+        if ($Check) { Warn 'Not installed'; return }
+        Warn 'Installing glow via winget...'
+        winget install -e --id charmbracelet.glow --silent --accept-package-agreements --accept-source-agreements
+        Ok 'Installed — PATH may need a new PowerShell session'
+    }
+}
+
 # ─── Workshop Repo ─────────────────────────────────────────────────────────
 function Setup-Repo {
     Step "Workshop repo at $WorkshopDir"
@@ -227,5 +241,6 @@ Check-Gh
 Check-Copilot
 Check-Plugins
 Check-Azure
+Check-Glow
 Setup-Repo
 Show-Summary

@@ -124,6 +124,19 @@ check_azure() {
   fi
 }
 
+# ─── glow (Markdown-Viewer fuer Akt 5) ─────────────────────────────────────
+check_glow() {
+  step "glow (Markdown-Viewer fuer Akt 5)"
+  if command -v glow >/dev/null; then
+    ok "$(glow --version 2>&1 | head -1)"
+  else
+    [[ "$MODE" == "--check" ]] && { warn "Not installed"; return; }
+    warn "Installing glow..."
+    if [[ "$PKG" == "brew" ]]; then brew install glow; else sudo apt install -y glow; fi
+    ok "Installed"
+  fi
+}
+
 # ─── Workshop repo ─────────────────────────────────────────────────────────
 setup_repo() {
   step "Workshop repo at $WORKSHOP_DIR"
@@ -189,6 +202,7 @@ main() {
   check_copilot
   check_plugins
   check_azure
+  check_glow
   setup_repo
   summary
 }

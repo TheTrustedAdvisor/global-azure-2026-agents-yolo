@@ -120,36 +120,43 @@ und dokumentiere die Ergebnisse.
 
 ---
 
-### 🤝 Akt 5 — A+F+M365 Triangle (5 Min)
+### 🤝 Akt 5 — OMG Spezialisten-Triangle (5 Min)
 
-[OMG](https://github.com/TheTrustedAdvisor/omg)s `team 3` spawnt **drei parallele Subagenten** — einen pro Cloud. Fabric-Agent spricht die **Fabric REST API** an und listet Workspaces, Azure-Agent provisioniert Resource Group via `az cli`, M365-Agent callt Graph API. Ein Prompt, drei echte Cloud-Calls.
+[OMG](https://github.com/TheTrustedAdvisor/omg)s `team 3` delegiert an **drei verschiedene spezialisierte Agents** — nicht drei Klone, sondern drei Experten. Der `document-specialist` dokumentiert einen Fabric-Workspace, der `security-reviewer` prüft dein M365-Profil, der `architect` kritisiert eine Azure-RG. Read-only, zwei Minuten, drei Experten-Reports.
 
 **Prompt** (auch in `prompts/act-5-triangle.txt`):
 
 ```text
 team 3:
-  fabric-inspect: Liste via 'az rest --method get --url
-    "https://api.fabric.microsoft.com/v1/workspaces" --resource
-    "https://api.fabric.microsoft.com"' alle Fabric-Workspaces.
-    Filtere auf Praefix 'mf-'. Liste Items pro Workspace. Report
-    nach docs/fabric-inspection.md.
+  fabric-documenter: Nutze OMG's document-specialist Agent.
+    Enumeriere Fabric-Workspaces via az rest, filter 'mf-*',
+    waehle ersten. Erstelle vollstaendige Workspace-Doku.
+    Output: docs/fabric-workspace-doc.md.
 
-  azure-provision: Pruefe 'az account show'. Erstelle Resource Group
-    'rg-hamburg-demo' in 'westeurope' mit Tags purpose=demo und
-    event=global-azure-hamburg-2026. Doku nach docs/azure-resources.md.
+  m365-security-reviewer: Nutze OMG's security-reviewer Agent.
+    Review mein M365-Profil via Graph API (/me, /me/authentication/methods,
+    /me/appRoleAssignments). Priorisierte Findings + Empfehlungen.
+    Output: docs/m365-security-review.md.
 
-  m365-integration: Rufe 'az rest --url https://graph.microsoft.com/v1.0/me'
-    um M365-Zugriff zu beweisen. SharePoint-Summary nach
-    docs/session-summary.md.
+  azure-architect-critic: Nutze OMG's architect Agent. Waehle erste
+    rg-* aus 'az group list', kritisiere Architektur mit Severity-Level
+    pro Finding. Output: docs/azure-rg-architecture-review.md.
 ```
 
-**Wow-Moment**: "Drei Clouds, ein Prompt — das ist Agentic Cloud Orchestration."
+**Wow-Moment**: "Drei Experten, drei Clouds, zwei Minuten — und zwar *verschiedene* Experten. Das ist der Wert von OMG."
 
-**Cleanup nach Session** (Azure-Kosten = 0, aber sauber):
+**Output mit glow anzeigen** (cross-platform):
 
 ```bash
-az group delete --name rg-hamburg-demo --yes --no-wait
+glow docs/fabric-workspace-doc.md
+glow docs/m365-security-review.md
+glow docs/azure-rg-architecture-review.md
+
+# Oder interaktiv paginiert
+glow -p docs/fabric-workspace-doc.md
 ```
+
+**Kein Cleanup noetig** — Akt 5 ist vollstaendig read-only.
 
 ---
 
