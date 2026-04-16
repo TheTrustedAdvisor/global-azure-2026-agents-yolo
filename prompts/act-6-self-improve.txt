@@ -1,0 +1,26 @@
+Nutze OMG's critic Agent (Opus-Model, multi-perspective review) fuer einen Self-Improvement-Loop.
+
+Schritt 1 — Review der drei Akt-5-Outputs:
+- docs/fabric-workspace-doc.md
+- docs/m365-security-review.md
+- docs/azure-rg-architecture-review.md
+
+Fuer JEDEN Report identifiziere:
+(a) Failure-Pattern: ASCII-Art / Box-Drawing-Zeichen, Spekulationen ohne Evidenz, Halluzinationen (falsche Daten, Fantasie-Purposes), fehlende Severity-Level, stale Datumsangaben, inkonsistente Struktur
+(b) Was der Report gut gemacht hat: Struktur-Elemente, Actionability, Evidenz-Qualitaet, Uebersicht
+
+Schritt 2 — Produziere DREI Artefakte:
+
+(1) Update .github/copilot-instructions.md: Ergaenze eine neue Sektion 'Report-Writing Standards' mit Regeln die aus den Findings abgeleitet sind. Mindestens: Evidenz-basierte Behauptungen (keine Spekulation ohne API-Daten), absolutes Verbot von Unicode-Box-Drawing-Zeichen (╭ ╮ ╯ ╰ ┌ ┐ └ ┘ │ ─ ├ ┤ ┴ ┬ ┼ ═ ║), Standard-Struktur fuer Review-Reports (Executive Summary, Findings-Tabelle mit Severity, Positiv-Befunde, Prio-Plan), heutiges Datum. Format als klare Bullet-Points mit kurzen Begruendungen.
+
+(2) Update prompts/act-5-triangle.txt: Haertere den Prompt basierend auf den Findings aus Schritt 1. Fuer jeden Agent (fabric-documenter, m365-security-reviewer, azure-architect-critic) fuege VERBOTE und POSITIV-Beispiele hinzu, die die beobachteten Failure-Pattern vermeiden. Halte das Format identisch zum bestehenden Prompt.
+
+(3) docs/prompt-optimization-report.md: Executive Summary mit Severity-Count-Tabelle, drei Sektionen (eine pro reviewtem Report), pro Sektion die Top-3-Findings mit Evidenz-Zitaten aus dem Report und der resultierenden Regel-Aenderung, Changelog-Tabelle (vorher/nachher) fuer .github/copilot-instructions.md und prompts/act-5-triangle.txt, Lessons Learned.
+
+VERBOTEN in allen drei Output-Files:
+- Unicode-Box-Drawing-Zeichen (╭ ╮ ╯ ╰ ┌ ┐ └ ┘ │ ─ ├ ┤ ┴ ┬ ┼ ═ ║)
+- ASCII-Art jeder Art
+- Spekulationen ueber Purpose / Intent ohne Evidenz
+- Emojis ausser fuer Severity-Level (🔴 🟠 🟡 🔵)
+
+Datum: nutze heute (2026-04-17). Alle Diffs als normale Markdown-Code-Blocks (```diff ... ```), nicht als Unicode-Kunst.

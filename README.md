@@ -160,6 +160,37 @@ glow -p docs/fabric-workspace-doc.md
 
 ---
 
+### 🧠 Akt 6 — Self-Improve: Critic updated Rules (3 Min)
+
+Der **recursive loop closes here**: Der Agent reviewt seine eigenen Outputs aus Akt 5, identifiziert Failure-Pattern (ASCII-Art-Rueckfall, Spekulation ohne Evidenz, Halluzinationen), und updated **seine eigenen Regeln + seinen eigenen Prompt**. Akt 1 hat sich konfiguriert, Akt 6 verbessert sich.
+
+**Prompt** (auch in `prompts/act-6-self-improve.txt`):
+
+```text
+Nutze OMG's critic Agent. Review die drei Akt-5-Outputs
+(docs/fabric-workspace-doc.md, docs/m365-security-review.md,
+docs/azure-rg-architecture-review.md). Identifiziere Failure-Pattern.
+Produziere:
+(1) Update .github/copilot-instructions.md mit Report-Writing-Standards
+(2) Update prompts/act-5-triangle.txt mit haerteren Constraints
+(3) docs/prompt-optimization-report.md mit Findings + Diff-Changelog
+Kein ASCII-Art, kein Box-Drawing.
+```
+
+**Wow-Moment — der Finale**:
+
+```bash
+git diff .github/copilot-instructions.md      # Agent hat seine Regeln geaendert
+git diff prompts/act-5-triangle.txt           # Agent hat seinen Prompt geaendert
+glow docs/prompt-optimization-report.md       # Agent erklaert was er gelernt hat
+```
+
+**Take-home**: "Der Agent hat in 3 Minuten seine eigenen Regeln gehaertet gegen die Fehler die er gerade gemacht hat. Nächster Run startet automatisch besser."
+
+**Kein Cleanup noetig** — alle Changes sind committable improvements.
+
+---
+
 ## Tech-Stack
 
 ```mermaid
