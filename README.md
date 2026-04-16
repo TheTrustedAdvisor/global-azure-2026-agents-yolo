@@ -393,14 +393,16 @@ cat prompts/act-1-bootstrap.txt
 - 📘 [OMG Quickstart](https://github.com/TheTrustedAdvisor/omg#quickstart)
 
 ### Microsoft Fabric & Power BI
-- 🏗️ [Microsoft Skills for Fabric](https://github.com/microsoft/skills-for-fabric)
+- 🏗️ [Microsoft Skills for Fabric](https://github.com/microsoft/skills-for-fabric) — offizielle Fabric-Skills-Collection
+- 🧪 [Fabric Periodic Table](https://www.fabricperiodictable.com/) — interaktive Referenz fuer alle Fabric-Komponenten
 - 📐 [PBIP File Format](https://learn.microsoft.com/en-us/power-bi/developer/projects/projects-overview)
 - 📝 [TMDL Language](https://learn.microsoft.com/en-us/analysis-services/tmdl/tmdl-overview)
-- 🔍 [Best Practice Analyzer Rules](https://github.com/microsoft/Analysis-Services/blob/master/BestPracticeRules/BPARules.json)
 
-### Community
-- 👥 [Fabric User Group Hamburg](https://www.meetup.com/fabric-user-group-hamburg/)
-- 🎥 [Fabric Friday](https://www.youtube.com/@FabricFriday) — woechentliche Deep-Dives
+### Projekte vom Speaker
+- 🎯 [copilot-cockpit.com](https://www.copilot-cockpit.com) — Governance & Guardrails fuer Copilot und AI-Agents
+- 🤖 [TheTrustedAdvisor/omg](https://github.com/TheTrustedAdvisor/omg) — Multi-Agent-Orchestrierung (25 Agents, 43 Skills)
+- 🧪 [Fabric Periodic Table](https://www.fabricperiodictable.com/) — Fabric-Komponenten-Referenz
+- 📺 [@TheTrustedAdvisor auf YouTube](https://www.youtube.com/@TheTrustedAdvisor) — weekly deep dives zu Microsoft Fabric
 
 ---
 
@@ -408,8 +410,11 @@ cat prompts/act-1-bootstrap.txt
 
 **Matthias Falland** — Microsoft Data Platform MVP · Azure Architect
 
-- 💼 [LinkedIn](https://linkedin.com/in/matthias-falland)
-- 📺 [Fabric Friday YouTube](https://www.youtube.com/@FabricFriday)
+- 💼 [LinkedIn](https://www.linkedin.com/in/matthias-falland/)
+- 📺 [YouTube: @TheTrustedAdvisor](https://www.youtube.com/@TheTrustedAdvisor)
+- 🎯 [copilot-cockpit.com](https://www.copilot-cockpit.com)
+- 🤖 [TheTrustedAdvisor/omg](https://github.com/TheTrustedAdvisor/omg)
+- 🧪 [fabricperiodictable.com](https://www.fabricperiodictable.com/)
 
 **Fragen nach der Session?** LinkedIn-DM oder direkt vor Ort.
 
