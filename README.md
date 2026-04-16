@@ -260,9 +260,11 @@ graph LR
 
 ### Prerequisites
 
-### Schneller Weg: setup.sh
+### Schneller Weg: setup-Script
 
-Das Repo bringt ein Setup-Script mit, das alles prüft und installiert (GitHub CLI, Copilot CLI, Azure CLI, Plugins) und den Clean-State herstellt:
+Das Repo bringt Setup-Scripts für alle Plattformen mit. Sie prüfen/installieren GitHub CLI, Copilot CLI, Azure CLI und Plugins und stellen den Clean-State her.
+
+**macOS / Linux (Bash):**
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/TheTrustedAdvisor/global-azure-2026-agents-yolo/main/setup.sh -o setup.sh
@@ -271,6 +273,17 @@ chmod +x setup.sh
 ./setup.sh --check   # Verifiziert nur, installiert nichts
 ./setup.sh --reset   # Zwischen Dry-Runs zum Clean-State
 ```
+
+**Windows (PowerShell 5.1+ oder PowerShell 7 / pwsh):**
+
+```powershell
+iwr https://raw.githubusercontent.com/TheTrustedAdvisor/global-azure-2026-agents-yolo/main/setup.ps1 -OutFile setup.ps1
+.\setup.ps1           # Installiert via winget + klont nach $HOME\demo-global-azure-2026
+.\setup.ps1 -Check    # Verifiziert nur, installiert nichts
+.\setup.ps1 -Reset    # Zwischen Dry-Runs zum Clean-State
+```
+
+> **Windows-Note**: Das PS-Script nutzt `winget` für Installationen. Falls winget fehlt: Windows 11 hat es von Haus aus, Windows 10 via Microsoft Store ("App Installer"). Alternativ Git Bash / WSL verwenden und `setup.sh` laufen lassen.
 
 ### Manuell
 
