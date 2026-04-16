@@ -99,8 +99,9 @@ check_plugins() {
   if echo "$plugins" | grep -q "skills-for-fabric"; then
     ok "skills-for-fabric installed"
   else
-    warn "skills-for-fabric needs manual install inside copilot:"
-    echo "      /plugin install skills-for-fabric@fabric-collection"
+    warn "skills-for-fabric needs TWO manual steps inside copilot (in this order):"
+    echo "      1) /plugin marketplace add microsoft/skills-for-fabric"
+    echo "      2) /plugin install skills-for-fabric@fabric-collection"
   fi
 }
 

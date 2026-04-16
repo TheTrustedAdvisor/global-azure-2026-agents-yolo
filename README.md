@@ -311,9 +311,12 @@ git clone https://github.com/TheTrustedAdvisor/global-azure-2026-agents-yolo.git
 cd global-azure-2026-agents-yolo
 
 # Plugins installieren
+# OMG (aus Shell):
 copilot plugin install TheTrustedAdvisor/omg
-# Skills for Fabric: nach Start von `copilot` intern ausführen:
-#   /plugin install skills-for-fabric@fabric-collection
+
+# Skills for Fabric: NACH Start von `copilot` INTERN in dieser Reihenfolge:
+#   1) /plugin marketplace add microsoft/skills-for-fabric
+#   2) /plugin install skills-for-fabric@fabric-collection
 
 # Los geht's
 copilot

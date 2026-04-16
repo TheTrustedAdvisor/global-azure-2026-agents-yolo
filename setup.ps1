@@ -130,8 +130,9 @@ function Check-Plugins {
     if ($plugins -match 'skills-for-fabric') {
         Ok 'skills-for-fabric installed'
     } else {
-        Warn 'skills-for-fabric needs manual install inside copilot:'
-        Write-Host '      /plugin install skills-for-fabric@fabric-collection'
+        Warn 'skills-for-fabric needs TWO manual steps inside copilot (in this order):'
+        Write-Host '      1) /plugin marketplace add microsoft/skills-for-fabric'
+        Write-Host '      2) /plugin install skills-for-fabric@fabric-collection'
     }
 }
 
