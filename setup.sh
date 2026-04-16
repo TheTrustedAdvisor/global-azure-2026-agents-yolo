@@ -16,8 +16,8 @@ MODE="${1:-full}"   # full | --reset | --check
 
 # ─── Colors & helpers ──────────────────────────────────────────────────────
 if [[ -t 1 ]]; then
-  BOLD='\033[1m'; RED='\033[0;31m'; GRN='\033[0;32m'
-  YLW='\033[0;33m'; BLU='\033[0;34m'; NC='\033[0m'
+  BOLD=$'\033[1m'; RED=$'\033[0;31m'; GRN=$'\033[0;32m'
+  YLW=$'\033[0;33m'; BLU=$'\033[0;34m'; NC=$'\033[0m'
 else
   BOLD='' RED='' GRN='' YLW='' BLU='' NC=''
 fi
