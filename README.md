@@ -404,6 +404,11 @@ cat prompts/act-1-bootstrap.txt
 - 🧪 [Fabric Periodic Table](https://www.fabricperiodictable.com/) — Fabric-Komponenten-Referenz
 - 📺 [@TheTrustedAdvisor auf YouTube](https://www.youtube.com/@TheTrustedAdvisor) — weekly deep dives zu Microsoft Fabric
 
+### Community / Meetups (vom Speaker geleitet)
+- 🇩🇪 [AI & Intelligent Cloud — Hamburg](https://www.meetup.com/ai-and-intelligent-cloud-hamburg/) — lokale Community direkt hier in Hamburg
+- 🇨🇭 [AI & Intelligent Cloud — Zurich](https://www.meetup.com/ai-and-intelligent-cloud/) — zentrale CH-Gruppe
+- 🇨🇭 [Azure Basel User Group](https://www.meetup.com/azure-basel-user-group/) — Azure-Fokus in Basel
+
 ---
 
 ## Speaker & Kontakt
