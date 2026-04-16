@@ -1,0 +1,1 @@
+Lies zuerst die Knowledge Base in .resources/kb-pbip.md. Dann implementiere SALES-001: Total Sales Amount. Befolge die TMDL-Regeln exakt. Alle Beschreibungen auf Deutsch.

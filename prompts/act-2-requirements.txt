@@ -1,0 +1,1 @@
+Lies die Business Requirements aus .requirements/requirements-01.md und zeig mir eine Uebersicht: welche Requirements gibt es und was ist der aktuelle Stand im Semantic Model? Erstelle einen Gap-Report: welche Measures sind gefordert, welche existieren, was fehlt.

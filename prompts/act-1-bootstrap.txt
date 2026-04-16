@@ -1,0 +1,1 @@
+Analysiere dieses Repository — Struktur, Dateien, Zweck. Erstelle dann eine .github/copilot-instructions.md die beschreibt: was dieses Projekt ist, wie die Ordnerstruktur aussieht, und welche Regeln ein Agent beim Arbeiten in diesem Repo befolgen muss. Lies dafuer .resources/kb-pbip.md und .requirements/requirements-01.md. Schreib alles auf Deutsch.

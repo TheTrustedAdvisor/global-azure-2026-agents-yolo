@@ -52,7 +52,7 @@ sequenceDiagram
     You->>CLI: "Analysiere dieses Repo, schreibe .github/copilot-instructions.md"
     CLI->>Repo: Glob **/* (36 Dateien)
     CLI->>Repo: Read kb-pbip.md, requirements-01.md, TMDL-Files
-    CLI->>CLI: Extrahiere 16 Regeln<br/>(Naming, Relationships, BPA, ...)
+    CLI->>CLI: Extrahiere 16 Regeln<br/>(Naming, Relationships, Self-Check, ...)
     CLI->>File: Write German instructions
     File-->>You: ✅ Agent hat sich selbst konfiguriert
 ```
@@ -91,12 +91,12 @@ Gap-Report: welche Measures sind gefordert, welche existieren, was fehlt.
 
 Shift+Tab → **Plan Mode**. Der Agent plant die TMDL-Implementierung fuer `SALES-001` (Total Sales Amount) — *nach den Regeln, die er in Akt 1 selbst geschrieben hat*.
 
-**Prompt:**
+**Prompt** (auch in `prompts/act-3-plan-sales-001.txt`):
 
 ```text
-Implementiere SALES-001 aus den Requirements. Halte dich strikt an die
-Regeln in .github/copilot-instructions.md und .resources/kb-pbip.md.
-Validiere am Ende mit .bpa/bpa.ps1.
+Lies zuerst die Knowledge Base in .resources/kb-pbip.md. Dann
+implementiere SALES-001: Total Sales Amount. Befolge die TMDL-Regeln
+exakt. Alle Beschreibungen auf Deutsch.
 ```
 
 **Wow-Moment**: "Der befolgt Regeln, die er sich selbst gegeben hat."
@@ -107,29 +107,47 @@ Validiere am Ende mit .bpa/bpa.ps1.
 
 Shift+Tab → **Autopilot Mode** (`--allow-all`). Der Agent implementiert SALES-002 (YoY/MoM Growth) und SALES-003 (Top Products Rank) ohne Rueckfragen.
 
-**Prompt:**
+**Prompt** (auch in `prompts/act-4-autopilot.txt`):
 
 ```text
-Implementiere SALES-002 und SALES-003 aus den Requirements. Alle Measures
-in den Fact-Table-Dateien, Beschreibungen auf Deutsch, am Ende BPA laufen lassen.
+Implementiere alle verbleibenden Requirements aus .requirements/requirements-01.md.
+Befolge die TMDL-Regeln aus kb-pbip.md. Alle Beschreibungen auf Deutsch.
+Fuehre am Ende einen Self-Check durch: gehe alle Naming-Conventions durch
+und dokumentiere die Ergebnisse.
 ```
 
 **Wow-Moment**: "Das hat gerade 2 Minuten gedauert."
 
 ---
 
-### 🤝 Akt 5 — OMG Multi-Agent (5 Min)
+### 🤝 Akt 5 — A+F+M365 Triangle (5 Min)
 
-[OMG](https://github.com/TheTrustedAdvisor/omg) orchestriert **echte parallele Subagenten** — kein Schein-Fleet, sondern spawnende Prozesse mit eigenen Rollen.
+[OMG](https://github.com/TheTrustedAdvisor/omg)s `team 3` spawnt **drei parallele Subagenten** — einen pro Cloud. Fabric-Agent korrigiert Naming-Conventions, Azure-Agent provisioniert Resource Group via `az cli`, M365-Agent callt Graph API und schreibt SharePoint-Summary. Ein Prompt, drei Clouds.
 
-**Prompt:**
+**Prompt** (auch in `prompts/act-5-triangle.txt`):
 
 ```text
-autopilot: Pruefe Semantic Model auf Naming Conventions, korrigiere Verstoesse,
-validiere mit BPA, und schreibe einen Change-Report.
+team 3:
+  fabric-review: Pruefe Measures in src/sales.semanticmodel gegen
+    .resources/kb-pbip.md. Korrigiere Naming-Verstoesse. Report nach
+    docs/fabric-review.md.
+
+  azure-provision: Pruefe 'az account show'. Erstelle Resource Group
+    'rg-hamburg-demo' in 'westeurope' mit Tags purpose=demo und
+    event=global-azure-hamburg-2026. Doku nach docs/azure-resources.md.
+
+  m365-integration: Rufe 'az rest --url https://graph.microsoft.com/v1.0/me'
+    um M365-Zugriff zu beweisen. SharePoint-Summary nach
+    docs/session-summary.md.
 ```
 
-**Wow-Moment**: "Das sind echte Subagenten, keine Simulation."
+**Wow-Moment**: "Drei Clouds, ein Prompt — das ist Agentic Cloud Orchestration."
+
+**Cleanup nach Session** (Azure-Kosten = 0, aber sauber):
+
+```bash
+az group delete --name rg-hamburg-demo --yes --no-wait
+```
 
 ---
 
@@ -147,7 +165,6 @@ flowchart TB
     subgraph Repo["📁 Dieses Repo"]
         KB[.resources/kb-pbip.md<br/>TMDL-Regelwerk]
         REQ[.requirements/<br/>Business Requirements]
-        BPA[.bpa/bpa.ps1<br/>Best Practice Analysis]
         SRC[src/sales.semanticmodel<br/>TMDL Files]
     end
 
@@ -159,7 +176,7 @@ flowchart TB
     CLI -.reads.-> KB
     CLI -.reads.-> REQ
     CLI -.writes.-> SRC
-    CLI -.validates.-> BPA
+    CLI -.self-check.-> KB
     SFF -.deploys.-> Fabric
     CLI -.inference.-> AzAI
 
@@ -226,7 +243,7 @@ graph LR
     A[Explizite Regeln<br/>kb-pbip.md<br/>Jede Zeile vorgegeben] --> B[System Prompt<br/>copilot-instructions.md<br/>Kontext + Regeln]
     B --> C[Plan Mode<br/>Agent plant<br/>Mensch bestaetigt]
     C --> D[Autopilot<br/>Agent fuehrt aus<br/>Mensch ueberwacht]
-    D --> E[Multi-Agent<br/>Agenten koordinieren<br/>BPA als Torwaechter]
+    D --> E[Multi-Agent<br/>Agenten koordinieren<br/>Verifier als Torwaechter]
 
     style A fill:#fafafa,stroke:#616161,color:#000
     style B fill:#e3f2fd,stroke:#1565c0,color:#000
@@ -235,7 +252,7 @@ graph LR
     style E fill:#f3e5f5,stroke:#6a1b9a,color:#000
 ```
 
-**Kernaussage**: Yolo-Mode ist kein Kontrollverlust, sondern Kontrolle auf einer anderen Ebene. Die Guardrails (Requirements, Knowledge Base, BPA-Validierung) wurden *vorher* gesetzt — der Agent operiert innerhalb dieses Rahmens.
+**Kernaussage**: Yolo-Mode ist kein Kontrollverlust, sondern Kontrolle auf einer anderen Ebene. Die Guardrails (Requirements, Knowledge Base, Agent-Self-Check) wurden *vorher* gesetzt — der Agent operiert innerhalb dieses Rahmens.
 
 ---
 
@@ -243,43 +260,56 @@ graph LR
 
 ### Prerequisites
 
+### Schneller Weg: setup.sh
+
+Das Repo bringt ein Setup-Script mit, das alles prüft und installiert (GitHub CLI, Copilot CLI, Azure CLI, Plugins) und den Clean-State herstellt:
+
 ```bash
-# GitHub Copilot CLI
-# macOS/Linux
-curl -fsSL https://github.com/cli/cli/releases/latest/download/install.sh | sh
-gh auth login
-
-# GitHub Copilot Subscription (Pro empfohlen wegen Claude-Modellen)
-# → https://github.com/features/copilot
-
-# PowerShell (fuer BPA-Validierung)
-# macOS: brew install --cask powershell
-# Ubuntu: sudo apt install -y powershell
-
-# Azure CLI (fuer Fabric-Deployment)
-# → https://learn.microsoft.com/en-us/cli/azure/install-azure-cli
+curl -fsSL https://raw.githubusercontent.com/TheTrustedAdvisor/global-azure-2026-agents-yolo/main/setup.sh -o setup.sh
+chmod +x setup.sh
+./setup.sh           # Installiert + klont nach ~/demo-global-azure-2026
+./setup.sh --check   # Verifiziert nur, installiert nichts
+./setup.sh --reset   # Zwischen Dry-Runs zum Clean-State
 ```
 
-### Repo klonen & starten
+### Manuell
 
 ```bash
+# GitHub Copilot CLI
+npm install -g @github/copilot
+gh auth login
+
+# Azure CLI (für Akt 5 — Triangle: Azure Resource Group)
+# macOS: brew install azure-cli
+# Linux: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+az login
+
+# Repo klonen
 git clone https://github.com/TheTrustedAdvisor/global-azure-2026-agents-yolo.git
 cd global-azure-2026-agents-yolo
 
-# Plugins installieren (optional fuer Akte 2 + 5)
-copilot plugin install microsoft/skills-for-fabric
+# Plugins installieren
 copilot plugin install TheTrustedAdvisor/omg
+# Skills for Fabric: nach Start von `copilot` intern ausführen:
+#   /plugin install skills-for-fabric@fabric-collection
 
 # Los geht's
 copilot
 ```
 
-Dann den Bootstrap-Prompt aus **Akt 1** einwerfen und zuschauen.
+### Prompts zum Copy-Paste
 
-### BPA manuell laufen lassen
+Alle 5 Akt-Prompts liegen in `prompts/`:
 
 ```bash
-pwsh ./.bpa/bpa.ps1 -src src/sales.semanticmodel
+# macOS: direkt ins Clipboard
+pbcopy < prompts/act-1-bootstrap.txt
+
+# Linux: via xclip
+xclip -selection clipboard < prompts/act-1-bootstrap.txt
+
+# Oder einfach lesen und tippen
+cat prompts/act-1-bootstrap.txt
 ```
 
 ---
@@ -289,8 +319,7 @@ pwsh ./.bpa/bpa.ps1 -src src/sales.semanticmodel
 | Problem | Loesung |
 |---------|---------|
 | `copilot: command not found` | `gh extension install github/gh-copilot` oder Update ueber `gh extension upgrade github/gh-copilot` |
-| `pwsh: command not found` | PowerShell Core installieren (siehe Prerequisites) |
-| Agent schreibt falsche Naming-Convention | Das ist Feature, nicht Bug — BPA faengt das. Genau darum geht's in der Demo. |
+| Agent schreibt falsche Naming-Convention | Das ist Feature, nicht Bug — der Self-Check gegen kb-pbip.md faengt das. Genau darum geht's in der Demo. |
 | `.github/copilot-instructions.md` existiert schon | `rm .github/copilot-instructions.md` — der Demo-Clou ist dass er neu geschrieben wird |
 | Autopilot-Mode haengt | `Ctrl+C`, dann `copilot --resume` — Copilot CLI merkt sich den State |
 

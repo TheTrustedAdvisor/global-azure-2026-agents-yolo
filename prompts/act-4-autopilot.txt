@@ -1,0 +1,1 @@
+Implementiere alle verbleibenden Requirements aus .requirements/requirements-01.md. Befolge die TMDL-Regeln aus kb-pbip.md. Alle Beschreibungen auf Deutsch. Fuehre am Ende einen Self-Check durch: gehe alle Naming-Conventions durch und dokumentiere die Ergebnisse.
