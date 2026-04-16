@@ -1,0 +1,15 @@
+model sales
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-GB
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+ref table Calendar
+ref table product
+ref table 'internet sales'
+ref table 'reseller sales'
+
+ref cultureInfo en-US

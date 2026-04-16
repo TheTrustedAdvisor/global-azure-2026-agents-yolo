@@ -1,0 +1,2 @@
+expression Parameter_Server = "dummyserver.database.windows.net" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+expression Parameter_Database = "AdventureWorksDW" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]

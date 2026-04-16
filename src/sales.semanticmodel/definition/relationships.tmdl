@@ -1,0 +1,15 @@
+relationship 'internet sales-product'
+	fromColumn: 'internet sales'.'product key'
+	toColumn: 'product'.'product key'
+
+relationship 'reseller sales-product'
+	fromColumn: 'reseller sales'.'product key'
+	toColumn: 'product'.'product key'
+
+relationship 'internet sales-Calendar'
+	fromColumn: 'internet sales'.'order date'
+	toColumn: 'Calendar'.'Date'
+
+relationship 'reseller sales-Calendar'
+	fromColumn: 'reseller sales'.'order date'
+	toColumn: 'Calendar'.'Date'

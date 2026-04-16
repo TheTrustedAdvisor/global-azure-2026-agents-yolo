@@ -1,0 +1,38 @@
+table 'internet sales'
+
+	column 'product key'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: 'product key'
+
+	column 'order date'
+		dataType: dateTime
+		summarizeBy: none
+		sourceColumn: 'order date'
+
+	column 'sales amount'
+		dataType: decimal
+		summarizeBy: sum
+		sourceColumn: 'sales amount'
+
+	partition internet_sales-0 = m
+		mode: import
+		source = ```
+let
+    Source = Sql.Database(#"Parameter_Server", #"Parameter_Database"),
+    F = Source{[Schema="dbo",Item="FactInternetSales"]}[Data],
+    S = Table.SelectColumns(F, {"ProductKey", "OrderDateKey", "SalesAmount"}),
+    A = Table.AddColumn(S, "order date", each 
+        let
+            k = Text.PadStart(Text.From([OrderDateKey]), 8, "0"),
+            y = Text.Start(k, 4),
+            m = Text.Middle(k, 4, 2),
+            d = Text.End(k, 2)
+        in Date.FromText(y & "-" & m & "-" & d)
+    , type date),
+    R = Table.RenameColumns(A, {{"ProductKey", "product key"}, {"SalesAmount", "sales amount"}}),
+    T = Table.TransformColumnTypes(R, {{"product key", Int64.Type}, {"order date", type date}, {"sales amount", type number}}),
+    FSel = Table.SelectColumns(T, {"product key", "order date", "sales amount"})
+in
+    FSel
+```

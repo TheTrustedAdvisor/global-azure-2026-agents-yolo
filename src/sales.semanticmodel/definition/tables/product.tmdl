@@ -1,0 +1,43 @@
+table product
+
+	column 'product key'
+		dataType: int64
+		isKey
+		summarizeBy: none
+		sourceColumn: 'product key'
+
+	column product
+		dataType: string
+		summarizeBy: none
+		sourceColumn: product
+
+	column category
+		dataType: string
+		summarizeBy: none
+		sourceColumn: category
+
+	partition product-0 = m
+		mode: import
+		source = ```
+let
+    Source = Sql.Database(#"Parameter_Server", #"Parameter_Database"),
+    DimProduct = Source{[Schema="dbo",Item="DimProduct"]}[Data],
+    DimProductSubcategory = Source{[Schema="dbo",Item="DimProductSubcategory"]}[Data],
+    DimProductCategory = Source{[Schema="dbo",Item="DimProductCategory"]}[Data],
+    // Select only required columns
+    P = Table.SelectColumns(DimProduct, {"ProductKey", "EnglishProductName", "ProductSubcategoryKey"}),
+    PS = Table.SelectColumns(DimProductSubcategory, {"ProductSubcategoryKey", "ProductCategoryKey"}),
+    PC = Table.SelectColumns(DimProductCategory, {"ProductCategoryKey", "EnglishProductCategoryName"}),
+    // Merge Product -> Subcategory
+    M1 = Table.NestedJoin(P, {"ProductSubcategoryKey"}, PS, {"ProductSubcategoryKey"}, "PS", JoinKind.LeftOuter),
+    E1 = Table.ExpandTableColumn(M1, "PS", {"ProductCategoryKey"}, {"ProductCategoryKey"}),
+    // Merge -> Category
+    M2 = Table.NestedJoin(E1, {"ProductCategoryKey"}, PC, {"ProductCategoryKey"}, "PC", JoinKind.LeftOuter),
+    E2 = Table.ExpandTableColumn(M2, "PC", {"EnglishProductCategoryName"}, {"category"}),
+    // Rename/Project
+    R = Table.RenameColumns(E2, {{"ProductKey", "product key"}, {"EnglishProductName", "product"}}),
+    S = Table.SelectColumns(R, {"product key", "product", "category"}),
+    T = Table.TransformColumnTypes(S, {{"product key", Int64.Type}, {"product", type text}, {"category", type text}})
+in
+    T
+```
