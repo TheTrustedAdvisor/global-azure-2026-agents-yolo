@@ -122,15 +122,17 @@ und dokumentiere die Ergebnisse.
 
 ### 🤝 Akt 5 — A+F+M365 Triangle (5 Min)
 
-[OMG](https://github.com/TheTrustedAdvisor/omg)s `team 3` spawnt **drei parallele Subagenten** — einen pro Cloud. Fabric-Agent korrigiert Naming-Conventions, Azure-Agent provisioniert Resource Group via `az cli`, M365-Agent callt Graph API und schreibt SharePoint-Summary. Ein Prompt, drei Clouds.
+[OMG](https://github.com/TheTrustedAdvisor/omg)s `team 3` spawnt **drei parallele Subagenten** — einen pro Cloud. Fabric-Agent spricht die **Fabric REST API** an und listet Workspaces, Azure-Agent provisioniert Resource Group via `az cli`, M365-Agent callt Graph API. Ein Prompt, drei echte Cloud-Calls.
 
 **Prompt** (auch in `prompts/act-5-triangle.txt`):
 
 ```text
 team 3:
-  fabric-review: Pruefe Measures in src/sales.semanticmodel gegen
-    .resources/kb-pbip.md. Korrigiere Naming-Verstoesse. Report nach
-    docs/fabric-review.md.
+  fabric-inspect: Liste via 'az rest --method get --url
+    "https://api.fabric.microsoft.com/v1/workspaces" --resource
+    "https://api.fabric.microsoft.com"' alle Fabric-Workspaces.
+    Filtere auf Praefix 'mf-'. Liste Items pro Workspace. Report
+    nach docs/fabric-inspection.md.
 
   azure-provision: Pruefe 'az account show'. Erstelle Resource Group
     'rg-hamburg-demo' in 'westeurope' mit Tags purpose=demo und

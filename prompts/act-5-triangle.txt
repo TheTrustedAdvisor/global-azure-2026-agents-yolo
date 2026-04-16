@@ -1,6 +1,6 @@
 team 3:
-  fabric-review: Pruefe die Measures in src/sales.semanticmodel gegen .resources/kb-pbip.md. Korrigiere Naming-Convention-Verstoesse. Schreibe Change-Report nach docs/fabric-review.md.
+  fabric-inspect: Liste via 'az rest --method get --url "https://api.fabric.microsoft.com/v1/workspaces" --resource "https://api.fabric.microsoft.com"' alle Fabric-Workspaces im aktuellen Tenant. Filtere auf Workspaces mit Praefix 'mf-'. Fuer jeden matching Workspace liste die Items via '/workspaces/{id}/items'. Dokumentiere nach docs/fabric-inspection.md: Welche mf-* Workspaces existieren, welche Items enthalten sie, und wo koennte das lokale sales.semanticmodel deployed werden.
 
   azure-provision: Pruefe mit 'az account show'. Erstelle Resource Group 'rg-hamburg-demo' in 'westeurope' mit Tags purpose=demo und event=global-azure-hamburg-2026. Dokumentiere nach docs/azure-resources.md.
 
-  m365-integration: Rufe 'az rest --url https://graph.microsoft.com/v1.0/me' um M365-Graph-Zugriff zu beweisen. Schreibe eine SharePoint-taugliche Session-Summary nach docs/session-summary.md mit: gebaute Measures, provisionierte Azure-Ressourcen, und Mehrwert fuer Product Manager.
+  m365-integration: Rufe 'az rest --url https://graph.microsoft.com/v1.0/me' um M365-Graph-Zugriff zu beweisen. Schreibe eine SharePoint-taugliche Session-Summary nach docs/session-summary.md mit: gebaute Measures, inspizierte Fabric-Workspaces, provisionierte Azure-Ressourcen, und Mehrwert fuer Product Manager.
